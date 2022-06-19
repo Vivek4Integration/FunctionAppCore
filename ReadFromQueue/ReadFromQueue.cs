@@ -34,7 +34,7 @@ namespace ReadFromQueue
 
             // The receiver is responsible for reading messages from the queue.
             ServiceBusReceiver receiver = client.CreateReceiver(queueName);
-            ServiceBusReceivedMessage receivedMessage = await receiver.ReceiveMessageAsync();
+            ServiceBusReceivedMessage receivedMessage = await receiver.ReceiveMessageAsync(new TimeSpan(0,0,0,2));
 
 
             string body = string.Empty; 
