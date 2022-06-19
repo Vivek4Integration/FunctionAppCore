@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Azure.Messaging.ServiceBus;
 using Microsoft.AspNetCore.Mvc;
@@ -33,9 +34,13 @@ namespace ReadFromQueue
             
 
             // The receiver is responsible for reading messages from the queue.
-            ServiceBusReceiver receiver = client.CreateReceiver(queueName);
+            ServiceBusReceiver receiver = client.CreateReceiver(queueName, new ServiceBusReceiverOptions()
+            {
+                ReceiveMode = ServiceBusReceiveMode.ReceiveAndDelete
+            });
+            
             ServiceBusReceivedMessage receivedMessage = await receiver.ReceiveMessageAsync(new TimeSpan(0,0,0,2));
-
+            
 
             string body = string.Empty; 
             if (receivedMessage != null)
